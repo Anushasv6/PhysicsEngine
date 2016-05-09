@@ -34,8 +34,8 @@ OBJSB   := $(patsubst $(SRC_DIR)/%, $(OUT_DIR)/%, $(OBJS))
 OBJS    := $(patsubst $(SRC_DIR)/%, %, $(OBJS))
 
 CC      := gcc
-CFLAGS  := -g -Wall  -pedantic -std=c99 -I $(INC_DIR) #-Werror
-LFLAGS  := 
+CFLAGS  := -g -Wall -pedantic -std=c99 -I $(INC_DIR) #-Werror
+LFLAGS  := -lm
 LLIBS   := -lGL -lGLU -lglut 
 
 # *************************************** Rules Section *************************************** 

@@ -8,18 +8,18 @@
  *
  */
 
-#include <GL/gl.h>
+#include "Types.h"
  
 #ifndef __COLORS_H_ 
 #define __COLORS_H_
 
-const GLfloat COLOR3FV_RED[]      = { 1.0, 0.0, 0.0 } ; // Red
-const GLfloat COLOR3FV_GREEN[]    = { 0.0, 1.0, 0.0 } ; // Green
-const GLfloat COLOR3FV_BLUE[]     = { 0.0, 0.0, 1.0 } ; // Blue
-const GLfloat COLOR3FV_BLACK[]    = { 0.0, 0.0, 0.0 } ; // Black = No color.
-const GLfloat COLOR3FV_WHITE[]    = { 1.0, 1.0, 1.0 } ; // White = All colors.
-const GLfloat COLOR3FV_LGRAY[]    = { 0.9, 0.9, 0.9 } ; // Light Gray
-const GLfloat COLOR3FV_MGRAY[]    = { 0.6, 0.6, 0.6 } ; // Medium Gray
-const GLfloat COLOR3FV_DGRAY[]    = { 0.3, 0.3, 0.3 } ; // Dark Gray
+const Color3fv COLOR3FV_RED  ; // Red
+const Color3fv COLOR3FV_GREEN; // Green
+const Color3fv COLOR3FV_BLUE ; // Blue
+const Color3fv COLOR3FV_BLACK; // Black = No color.
+const Color3fv COLOR3FV_WHITE; // White = All colors.
+const Color3fv COLOR3FV_LGRAY; // Light Gray
+const Color3fv COLOR3FV_MGRAY; // Medium Gray
+const Color3fv COLOR3FV_DGRAY; // Dark Gray
 
 #endif // __COLORS_H_

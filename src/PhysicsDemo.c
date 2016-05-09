@@ -1,29 +1,54 @@
 #include <stdio.h>
 #include <GL/glut.h>
+#include <math.h>
 
 #include "Colors.h"
 #include "Types.h"
 #include "EventHandlers.h"
 #include "GraphicPrimitives.h"
+#include "InternalState.h"
+#include "CalculateDistanceAndTime.h"
+//#include "Update.h"
+#include "RigidBody.h"
 
+
+// Boundary Points...
+double x0 = 200, y0 = 200; // Bottom Left
+double x1 = 650, y1 = 650; // Top Right
+
+// Radius of Circle
+double radius = 20;
 
 /**
  * @brief Callback function called by GLUT for every frame to draw the screen.
  */
 void SceneRenderFunc() {
-    double x0=60,y0=20,x1=80,y1=120;
-    glClear(GL_COLOR_BUFFER_BIT);         
-    
-    //Draw a red colored viewport
-    DrawColoredRect(100, 100, 100, 200, 200, 200, 200, 100, COLOR3FV_RED);
 
-    // Draw a gray line without any clipping...
-    //DrawColoredLine(g_x0, g_y0, g_x1, g_y1, COLOR3FV_LGRAY);
-    
-    glFlush();
+    glClear(GL_COLOR_BUFFER_BIT); 
+
+    //Draw a red colored viewport
+    DrawColoredRectUsingOnlyTwoPoints(x0, y0, x1, y1, COLOR3FV_RED);
+
+
+    if(IsAnimationOn() == 0){
+        //Draw a BLUE circle...
+        DrawCircle(GetMouseX(), GetMouseY(),radius, COLOR3FV_BLUE); 
+    }
+    else{
+        //Get the new values of the circle and redraw the circle at that position..
+        //DrawCircle(GetMouseX(), newY , radius, COLOR3FV_RED);
+        PaintRigidBodies();
+    }
+
+    glutSwapBuffers();
 }
 
+void IdleTimeEventHandler(){
+    UpdateRigidBodyLocations();
 
+    glutPostRedisplay();
+
+}
 
 
 /**
@@ -42,13 +67,17 @@ void ChangeScreenSize(GLsizei w, GLsizei h) {
     glLoadIdentity();
 
     // Store it for later use in Mouse Event Handler...
-    //g_width = w; g_height = h;
+    SetWindowHeight(h);
+    SetWindowWidth(w);
+
+    SetBoundary(x0, y0, x1, y1);
 
     // gluOrtho2D(-w/2, w/2, -h/2, h/2);
     gluOrtho2D(0.0, w, 0.0, h);
     
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
+
 }
 
 /**
@@ -58,23 +87,30 @@ void SetupRenderConfig() {
     // Set the color that would be painted when we clear the screen.
     glClearColor(1.0, 1.0, 1.0, 1.0);
 
+    glLineWidth(2.5);
+
     // The Size of the pencil...
     glPointSize(1.0);
+
+
 }
+
 
 /**
  * @brief The entry point to this program...
  */
 int main(int argC, char *argV[]) {
 
+    printf("Press g/G to enable gravity\n");
+
     // Initialize the GLUT Library
     glutInit(&argC,argV);
 
     // Set the Display Mode. Single Buffer/RGB Color...
-    glutInitDisplayMode(GLUT_SINGLE|GLUT_RGB);
+    glutInitDisplayMode(GLUT_DOUBLE|GLUT_RGB);
 
     // Set the Window size
-    glutInitWindowSize(500, 500);
+    glutInitWindowSize(800, 800);
 
     // Create the Window. All drawing operations happen inside it...
     glutCreateWindow("Physics Engine");
@@ -89,6 +125,8 @@ int main(int argC, char *argV[]) {
     glutMouseFunc(MouseEventHandler);
 
     glutKeyboardFunc(KeyboardEventHandler);
+
+    glutIdleFunc(IdleTimeEventHandler);
 
     // Setup the context...
     SetupRenderConfig();

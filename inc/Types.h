@@ -8,7 +8,21 @@
  *
  */
 
- typedef unsigned char BOOL;
+#include <GL/gl.h>
+ 
+#ifndef __TYPES_H__
+#define __TYPES_H__
 
+typedef unsigned char BOOL;
+
+/**
+ *@breif Macros that define boolean functions i.e TRUE or FALSE......
+ *
+ */
+ 
 #define TRUE    (1)
 #define FALSE   (0)
+
+typedef GLfloat Color3fv[3];
+
+#endif  // __TYPES_H__  
